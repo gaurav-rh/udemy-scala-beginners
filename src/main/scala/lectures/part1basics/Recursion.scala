@@ -1,5 +1,6 @@
 package lectures.part1basics
 import scala.annotation.tailrec
+import scala.jdk.Accumulator
 
 object Recursion extends App {
   def factorial(num: Int): Int = {
@@ -44,7 +45,7 @@ object Recursion extends App {
   */
 
   //here no stackoverflow problem
-  println(anotherFactorial(5000)) //it'll run
+  //println(anotherFactorial(5000)) //it'll run
 
   //when you need to use loops , use _tail_ recursion
   /*
@@ -54,25 +55,25 @@ object Recursion extends App {
     3.  Fibonacci function, tail recursive.
    */
 
-  @tailrec
-  def concatenateTailrec(aString: String, n: Int, accumulator: String): String =
-    if (n <= 0) accumulator
-    else concatenateTailrec(aString, n-1, aString + accumulator)
-
-  println(concatenateTailrec("hello", 3, ""))
-
-  def isPrime(n: Int): Boolean = {
-    @tailrec
-    def isPrimeTailrec(t: Int, isStillPrime: Boolean): Boolean =
-      if (!isStillPrime) false
-      else if (t <= 1) true
-      else isPrimeTailrec(t - 1, n % t != 0 && isStillPrime)
-
-    isPrimeTailrec(n / 2, true)
+  def concatenator(aString:String , n: Int, accumulator: String) : String = {
+    if(n>=0) concatenator(aString, n-1, accumulator+" "+aString)
+    else accumulator
   }
+  println(concatenator("print",5,""))
 
-  println(isPrime(2003))
-  println(isPrime(629))
+  def aPrimeNumber(num:Int):Boolean = {
+    if(num==1) true
+    def helper(index:Int): Boolean = {
+      if((num%index !=0) && index<num/2 ){
+        helper(index+1)
+      } else{
+          if(index<num/2) false
+          else true
+        }
+      }
+    helper(2)
+  }
+   // println(aPrimeNumber(2))
 
   def fibonacci(n: Int): Int = {
     @tailrec
@@ -85,4 +86,6 @@ object Recursion extends App {
   }
 
   println(fibonacci(8)) // 1 1 2 3 5 8 13, 21
-}
+  }
+
+
